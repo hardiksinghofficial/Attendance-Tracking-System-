@@ -1,0 +1,55 @@
+services:
+  # Backend Spring Boot Application
+  - type: web
+    name: attendance-backend
+    runtime: java
+    region: oregon # Change to: singapore, frankfurt, ohio, oregon
+    plan: free # Options: free, starter, standard, pro
+    branch: main # Git branch to deploy
+
+    # Build Configuration
+    buildCommand: ./mvnw clean package -DskipTests
+    startCommand: java -Dserver.port=$PORT -jar target/attendance-system-1.0.0.jar
+
+    # Health Check Configuration
+    healthCheckPath: /actuator/health
+
+    # Environment Variables
+    envVars:
+      # Database Configuration (PostgreSQL from Railway)
+      - key: DATABASE_URL
+        value: jdbc:postgresql://interchange.proxy.rlwy.net:20077/railway?options=-c%20TimeZone=UTC
+
+      - key: DB_USERNAME
+        value: postgres
+
+      - key: DB_PASSWORD
+        sync: false # Mark as secret - will need to set in Render dashboard
+
+      # JWT Configuration
+      - key: JWT_SECRET
+        sync: false # Mark as secret
+
+      - key: JWT_EXPIRATION
+        value: 86400000
+
+      # Cloudinary Configuration
+      - key: CLOUDINARY_CLOUD_NAME
+        value: dn4jal3tn
+
+      - key: CLOUDINARY_API_KEY
+        value: 359445359695156
+
+      - key: CLOUDINARY_API_SECRET
+        sync: false # Mark as secret
+
+      # Frontend URL for CORS
+      - key: FRONTEND_URL
+        sync: false # Set this after frontend deployment
+
+      # Server Port (Render provides this automatically)
+      - key: PORT
+        value: 8080
+
+    # Auto-deploy Configuration
+    autoDeploy: true # Auto-deploy on git push
