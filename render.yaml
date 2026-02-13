@@ -1,0 +1,24 @@
+services:
+  - type: web
+    name: attendance-backend
+    runtime: docker
+    dockerfilePath: ./Dockerfile
+    envVars:
+      - key: DATABASE_URL
+        value: jdbc:postgresql://interchange.proxy.rlwy.net:20077/railway?options=-c%20TimeZone=UTC
+      - key: DB_USERNAME
+        value: postgres
+      - key: DB_PASSWORD
+        value: gydbAyYmSkkocDWvVAxbTxfGkztgYgHY
+      - key: JWT_SECRET
+        value: mySecretKey123456789012345678901234567890
+      - key: JWT_EXPIRATION
+        value: 86400000
+      - key: CLOUDINARY_CLOUD_NAME
+        value: dn4jal3tn
+      - key: CLOUDINARY_API_KEY
+        value: 359445359695156
+      - key: CLOUDINARY_API_SECRET
+        value: wTm2tVIywIbnA-m6HhpXXRSJ1P0
+      - key: FRONTEND_URL
+        value: http://localhost:3000
